@@ -1,41 +1,42 @@
 import React, { useState } from 'react';
-import { Tabs, Tab, Box, Typography } from '@mui/material';
-import UserManagement from './UserManagement';
-import RoleManagement from './RoleManagement';
-import PermissionManagement from './PermissionManagement';
+import { Tabs, Tab } from '@mui/material';
+import UserManagement from '../components/UserManagement';
+import RoleManagement from '../components/RoleManagement';
 
 function DashboardPage() {
   const [activeTab, setActiveTab] = useState(0);
+  const [roles, setRoles] = useState(['Admin', 'Editor', 'Viewer']);
+  const [rolePermissions, setRolePermissions] = useState({});
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
 
   return (
-    <Box sx={{ padding: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        Admin Dashboard
-      </Typography>
-
+    <div style={{ padding: '24px' }}>
       <Tabs
         value={activeTab}
         onChange={handleTabChange}
         aria-label="Dashboard Tabs"
         textColor="primary"
         indicatorColor="primary"
-        sx={{ marginBottom: 3 }}
+        style={{ marginBottom: '24px' }}
       >
         <Tab label="User Management" />
         <Tab label="Role Management" />
-        <Tab label="Permission Management" />
       </Tabs>
-
-      <Box>
-        {activeTab === 0 && <UserManagement />}
-        {activeTab === 1 && <RoleManagement />}
-        {activeTab === 2 && <PermissionManagement />}
-      </Box>
-    </Box>
+      <div>
+        {activeTab === 0 && <UserManagement roles={roles} setRoles={setRoles} />}
+        {activeTab === 1 && (
+          <RoleManagement 
+            roles={roles} 
+            setRoles={setRoles} 
+            rolePermissions={rolePermissions} 
+            setRolePermissions={setRolePermissions}
+          />
+        )}
+      </div>
+    </div>
   );
 }
 

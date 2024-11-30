@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Typography, Box, Alert } from '@mui/material';
 
-function LoginPage() {
+function LoginPage({ onLogin }) {
   const navigate = useNavigate();
 
   // Hardcoded credentials
@@ -15,23 +15,30 @@ function LoginPage() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-  
-    if (email === '' || password === '') {
+    setError(''); // Reset error message
+
+    // Validate email format
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email || !password) {
       setError("Both fields are required");
       return;
     }
-  
+
+    if (!emailPattern.test(email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
     if (email !== adminEmail || password !== adminPassword) {
       setError("Invalid email or password");
       return;
     }
-  
+
     // Mark user as authenticated and redirect
     localStorage.setItem('isAuthenticated', 'true');
-    setError('');
+    onLogin(); // Call the onLogin function to update the authentication state
     navigate('/dashboard');
   };
-  
 
   return (
     <Box
@@ -59,6 +66,8 @@ function LoginPage() {
           onChange={(e) => setEmail(e.target.value)}
           margin="normal"
           required
+          error={!!error && !email} // Show error if email is invalid
+          helperText={!!error && !email ? "Email is required" : ""}
         />
         <TextField
           fullWidth
@@ -68,6 +77,8 @@ function LoginPage() {
           onChange={(e) => setPassword(e.target.value)}
           margin="normal"
           required
+          error={!!error && !password} // Show error if password is invalid
+          helperText={!!error && !password ? "Password is required" : ""}
         />
         <Button
           fullWidth

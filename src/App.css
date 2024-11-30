@@ -1,38 +1,254 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f5f5f5;
+}
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* User Management Card Styles */
+.user-management-card {
+  max-width: 1500px;
+  margin: 10px auto;
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  flex-direction: row;
+  height: auto;
+}
+
+/* Filter Section Styles */
+.filter-section {
+  width: 20%;
+  padding-right: 10px;
+}
+
+/* Main Section Styles */
+.main-section {
+  width: 70%;
+}
+
+/* Heading Styles */
+.user-management-card h2 {
+  margin-bottom: 16px;
+}
+
+/* Input and Select Styles */
+.user-management-card input,
+.user-management-card select {
+  padding: 8px;
+  margin-right: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 150px;
+}
+
+/* Button Styles */
+.user-management-card button {
+  background-color: #3f51b5;
   color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 8px 16px;
+  transition: background-color 0.3s;
 }
 
-.App-link {
-  color: #61dafb;
+.user-management-card button:hover {
+  background-color: #303f9f;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Error Message Styles */
+.error-alert {
+  color: red;
+  margin-bottom: 16px;
+}
+
+.role-management-card {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 16px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.role-input-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.role-input {
+  flex-grow: 1;
+  margin-right: 8px;
+}
+
+.role-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 8px 0;
+}
+
+.role-item-content {
+  display: flex;
+  align-items: center;
+}
+
+.delete-icon {
+  margin-left: 8px;
+}
+
+.permissions-select {
+  min-width: 250px;
+  width: 50px;
+}
+
+/* Dialog Styles */
+.dialog-title {
+  font-weight: bold;
+}
+
+.dialog-content {
+  margin-bottom: 16px;
+}
+
+/* Add this to your existing CSS file if you want to customize the switch appearance */
+.switch-label {
+  margin-left: 8px;
+}
+
+/* Search Input Styles */
+.search-input-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.search-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 300px;
+  transition: border-color 0.3s;
+}
+
+.search-input:focus {
+  border-color: #3f51b5;
+  outline: none;
+  box-shadow: 0 0 5px rgba(63, 81, 181, 0.5);
+}
+
+/* Search Button Styles */
+.search-button {
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 10px 16px;
+  margin-left: 8px;
+  transition: background-color 0.3s;
+}
+
+.search-button:hover {
+  background-color: #303f9f;
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Error Message Styles */
+.error-alert {
+  color: red;
+  margin-bottom: 16px;
+}
+
+/* Dialog Styles */
+.dialog-title {
+  font-weight: bold;
+}
+
+.dialog-content {
+  margin-bottom: 16px;
+}
+
+/* Switch Styles */
+.switch-label {
+  margin-left: 8px;
+}
+
+.edit-user-dialog {
+  min-width: 400px;
+}
+
+.dialog-input,
+.dialog-select {
+  margin-bottom: 16px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.dialog-input:focus,
+.dialog-select:focus {
+  border-color: #3f51b5;
+  outline: none;
+}
+
+.dialog-select {
+  margin-top: 16px;
 }

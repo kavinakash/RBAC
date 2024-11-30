@@ -1,24 +1,25 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 
-function Navbar() {
+function Navbar({ isAuthenticated, onLogout }) {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    onLogout();
+    navigate('/');
+  };
+
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
-          RBAC Dashboard
-        </Typography>
+        <Typography variant="h6" sx={{ flexGrow: 1 }}>RBAC Dashboard</Typography>
         <Box>
-          <Button color="inherit" component={Link} to="/">
-            Users
-          </Button>
-          <Button color="inherit" component={Link} to="/roles">
-            Roles
-          </Button>
-          <Button color="inherit" component={Link} to="/permissions">
-            Permissions
-          </Button>
+          {isAuthenticated ? (
+            <Button color="inherit" onClick={handleLogout}>Logout</Button>
+          ) : (
+            <Button color="inherit" onClick={() => navigate('/')}>Login</Button>
+          )}
         </Box>
       </Toolbar>
     </AppBar>
