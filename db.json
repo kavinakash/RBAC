@@ -1,0 +1,81 @@
+{
+  "users": [
+    {
+      "id": "3",
+      "name": "Vikram",
+      "email": "vikram@gmail.com",
+      "role": "Viewer",
+      "status": "Active"
+    },
+    {
+      "id": "4",
+      "name": "Lakshmi",
+      "email": "lakshmi@gmail.com",
+      "role": "Viewer",
+      "status": "Inactive"
+    },
+    {
+      "id": "5",
+      "name": "Karthik Raj",
+      "email": "karthik.raj@gmail.com",
+      "role": "Editor",
+      "status": "Active"
+    },
+    {
+      "id": "6",
+      "name": "Anjaan",
+      "email": "Anjaan@gmail.com",
+      "role": "Viewer",
+      "status": "Inactive"
+    },
+    {
+      "id": "7",
+      "name": "Suresh Babu",
+      "email": "suresh.babu@gmail.com",
+      "role": "Admin",
+      "status": "Active"
+    },
+    {
+      "id": "8",
+      "name": "Priya Selvam",
+      "email": "priya.selvam@gmail.com",
+      "role": "Editor",
+      "status": "Inactive"
+    },
+    {
+      "id": "9",
+      "name": "Ravi Chandran",
+      "email": "ravi.chandran@gmail.com",
+      "role": "Viewer",
+      "status": "Active"
+    },
+    {
+      "id": "10",
+      "name": "Divya Lakshmi",
+      "email": "divya.lakshmi@gmail.com",
+      "role": "Admin",
+      "status": "Inactive"
+    },
+    {
+      "id": "03a8",
+      "name": "dfd",
+      "email": "dasfads@semail.com",
+      "role": "Editor",
+      "status": "Active"
+    }
+  ],
+  "roles": [
+    {
+      "id": "1",
+      "name": "Admin"
+    },
+    {
+      "id": "2",
+      "name": "Editor"
+    },
+    {
+      "id": "3",
+      "name": "Viewer"
+    }
+  ]
+}

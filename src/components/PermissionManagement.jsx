@@ -7,7 +7,6 @@ function PermissionManagement({ roles, rolePermissions, setRolePermissions }) {
   
   const handleAddPermission = () => {
     if (newPermission) {
-      // Add the new permission to all roles
       const updatedRolePermissions = { ...rolePermissions };
       for (const role of roles) {
         if (!updatedRolePermissions[role]) {

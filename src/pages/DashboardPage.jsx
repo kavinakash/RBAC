@@ -8,9 +8,7 @@ function DashboardPage() {
   const [roles, setRoles] = useState(['Admin', 'Editor', 'Viewer']);
   const [rolePermissions, setRolePermissions] = useState({});
 
-  const handleTabChange = (event, newValue) => {
-    setActiveTab(newValue);
-  };
+  const handleTabChange = (event, newValue) => setActiveTab(newValue);
 
   return (
     <div style={{ padding: '24px' }}>

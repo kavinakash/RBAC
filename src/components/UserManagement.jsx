@@ -1,19 +1,9 @@
-import React, { useState } from 'react';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Button, Switch, FormControlLabel } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Switch } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { addUser, deleteUser, fetchUsers, updateUser } from '../api';
 
 function UserManagement({ roles, setRoles }) {
-  const [users, setUsers] = useState([
-    { id: 1, name: 'Kavin Akash', email: 'kavin.akash@gmail.com', role: 'Admin', status: 'Active' },
-    { id: 2, name: 'Veeran', email: 'veeran@gmail.com', role: 'Editor', status: 'Inactive' },
-    { id: 3, name: 'Vikram', email: 'vikram@gmail.com', role: 'Viewer', status: 'Active' },
-    { id: 4, name: 'Lakshmi', email: 'lakshmi@gmail.com', role: 'Admin', status: 'Inactive' },
-    { id: 5, name: 'Karthik Raj', email: 'karthik.raj@gmail.com', role: 'Editor', status: 'Active' },
-    { id: 6, name: 'Anjaan', email: 'Anjaan@gmail.com', role: 'Viewer', status: 'Inactive' },
-    { id: 7, name: 'Suresh Babu', email: 'suresh.babu@gmail.com', role: 'Admin', status: 'Active' },
-    { id: 8, name: 'Priya Selvam', email: 'priya.selvam@gmail.com', role: 'Editor', status: 'Inactive' },
-    { id: 9, name: 'Ravi Chandran', email: 'ravi.chandran@gmail.com', role: 'Viewer', status: 'Active' },
-    { id: 10, name: 'Divya Lakshmi', email: 'divya.lakshmi@gmail.com', role: 'Admin', status: 'Inactive' },
-  ]);
+  const [users, setUsers] = useState([]);
   const [newUser, setNewUser] = useState({ name: '', email: '', role: '', status: 'Active' });
   const [error, setError] = useState('');
   const [editUser, setEditUser] = useState(null);
@@ -25,15 +15,23 @@ function UserManagement({ roles, setRoles }) {
   const [filterRole, setFilterRole] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const usersPerPage = 4; // Number of users to display per page
-  const [activityLogs, setActivityLogs] = useState([]); // State for activity logs
+  const usersPerPage = 4;
+  const [activityLogs, setActivityLogs] = useState([]);
+
+  useEffect(() => {
+    const loadUsers = async () => {
+      const usersData = await fetchUsers();
+      setUsers(usersData);
+    };
+    loadUsers();
+  }, []);
 
   const validateEmail = (email) => {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email regex
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   };
 
-  const handleAddUser = () => {
+  const handleAddUser = async () => {
     if (!newUser.name) {
       setError('Name is required.');
       return;
@@ -46,22 +44,23 @@ function UserManagement({ roles, setRoles }) {
       setError('Role is required.');
       return;
     }
-    const newUserEntry = { ...newUser, id: users.length + 1 };
+    const newUserEntry = await addUser(newUser);
     setUsers([...users, newUserEntry]);
-    setActivityLogs([...activityLogs, `Added user: ${newUserEntry.name}`]); // Log the action
+    setActivityLogs([...activityLogs, `Added user: ${newUserEntry.name}`]);
     setNewUser({ name: '', email: '', role: '', status: 'Active' });
     setError('');
   };
 
-  const handleDeleteUser = (id) => {
+  const handleDeleteUser = async (id) => {
     setUserToDelete(id);
     setConfirmDeleteOpen(true);
   };
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     const userToDeleteEntry = users.find(user => user.id === userToDelete);
+    await deleteUser(userToDelete);
     setUsers(users.filter(user => user.id !== userToDelete));
-    setActivityLogs([...activityLogs, `Deleted user: ${userToDeleteEntry.name}`]); // Log the action
+    setActivityLogs([...activityLogs, `Deleted user: ${userToDeleteEntry.name}`]);
     setConfirmDeleteOpen(false);
     setUserToDelete(null);
   };
@@ -88,7 +87,7 @@ function UserManagement({ roles, setRoles }) {
     setEditUser(null);
   };
 
-  const handleEditUserSave = () => {
+  const handleEditUserSave = async () => {
     if (!editUser.name) {
       setError('Name is required.');
       return;
@@ -101,8 +100,9 @@ function UserManagement({ roles, setRoles }) {
       setError('Role is required.');
       return;
     }
-    setUsers(users.map(user => (user.id === editUser.id ? editUser : user)));
-    setActivityLogs([...activityLogs, `Edited user: ${editUser.name}`]); // Log the action
+    const updatedUser = await updateUser(editUser);
+    setUsers(users.map(user => (user.id === updatedUser.id ? updatedUser : user)));
+    setActivityLogs([...activityLogs, `Edited user: ${updatedUser.name}`]);
     handleEditUserClose();
   };
 
@@ -110,7 +110,6 @@ function UserManagement({ roles, setRoles }) {
     setUsers(users.map(user => (user.id === id ? { ...user, status: user.status === 'Active' ? 'Inactive' : 'Active' } : user)));
   };
 
-  // Filter users based on search term, role, and status
   const filteredUsers = users.filter(user => 
     (user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.email.toLowerCase().includes(searchTerm.toLowerCase())) &&
@@ -118,7 +117,6 @@ function UserManagement({ roles, setRoles }) {
     (filterStatus ? user.status === filterStatus : true)
   );
 
-  // Pagination logic
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
@@ -211,7 +209,6 @@ function UserManagement({ roles, setRoles }) {
           <button onClick={handleAddUser}>Add User</button>
         </div>
 
-        {/* Bulk Actions */}
         <div style={{ marginBottom: '16px' }}>
           <Button 
             variant="contained" 
@@ -290,7 +287,6 @@ function UserManagement({ roles, setRoles }) {
           </tbody>
         </table>
 
-        {/* Pagination Controls */}
         <div>
           <button onClick={() => handlePageChange('prev')} disabled={currentPage === 1}>
             Previous
@@ -302,7 +298,6 @@ function UserManagement({ roles, setRoles }) {
         </div>
       </div>
 
-      {/* Activity Logs Section */}
       <div style={{ marginTop: '20px', width: '500px' }}>
         <h3>Activity Logs</h3>
         <ul>
