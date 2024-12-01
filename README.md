@@ -61,8 +61,3 @@ This project is an admin dashboard for managing users, roles, and permissions us
 - **Axios**: A promise-based HTTP client for making API requests.
 - **json-server**: A simple way to create a REST API using a JSON file.
 
-## Contributing
-Contributions are welcome! If you have suggestions for improvements or new features, feel free to open an issue or submit a pull request.
-
-## License
-This project is licensed under the MIT License. See the LICENSE file for more details.
