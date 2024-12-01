@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Lato', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f5f5f5;
@@ -10,16 +10,25 @@ body {
   text-align: center;
 }
 
+.Log:hover{
+  background: white;
+  color: blue;
+}
+
 .user-management-card {
   max-width: 1500px;
-  margin: 10px auto;
-  padding: 10px;
+  margin: 2px auto;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: row;
   height: auto;
+  overflow: hidden;
 }
 
 .filter-section {
@@ -46,7 +55,7 @@ body {
 }
 
 .user-management-card button {
-  background-color: #3f51b5;
+  background-color: #1976d2;
   color: white;
   border: none;
   border-radius: 4px;
@@ -56,13 +65,22 @@ body {
 }
 
 .user-management-card button:hover {
-  background-color: #303f9f;
+  background-color: #1565c0;
+}
+
+.user-management-card button.delete {
+  background-color: #f44336;
+}
+
+.user-management-card button.delete:hover {
+  background-color: #d32f2f;
 }
 
 table {
-  width: 100%;
+  width: 800px;
   border-collapse: collapse;
   margin-top: 20px;
+  table-layout: fixed;
 }
 
 th, td {
@@ -81,8 +99,13 @@ tr:hover {
 }
 
 .error-alert {
-  color: red;
+  color: #f44336;
   margin-bottom: 16px;
+}
+
+.activity-log {
+  max-width: 400px;
+  width: 400px;
 }
 
 .role-management-card {
@@ -103,6 +126,11 @@ tr:hover {
 .role-input {
   flex-grow: 1;
   margin-right: 8px;
+  padding-right: 10px;
+}
+
+.role-management-card button {
+  margin-left: 20px;
 }
 
 .role-list-item {
@@ -124,7 +152,6 @@ tr:hover {
 
 .permissions-select {
   min-width: 250px;
-  width: 50px;
 }
 
 .dialog-title {
@@ -155,9 +182,9 @@ tr:hover {
 }
 
 .search-input:focus {
-  border-color: #3f51b5;
+  border-color: #4caf50;
   outline: none;
-  box-shadow: 0 0 5px rgba(63, 81, 181, 0.5);
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
 }
 
 .search-button {
@@ -195,27 +222,124 @@ tr:hover {
   margin-top: 16px;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  padding: 5px;
+}
+
+.pagination button {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 8px 12px;
+  margin: 0 5px;
+  transition: background-color 0.3s;
+}
+
+.pagination button:hover {
+  background-color: #1565c0;
+}
+
+.pagination span {
+  margin: 0 10px;
+  font-weight: bold;
+}
+
+th:nth-child(1), td:nth-child(1) {
+  width: 45px;
+}
+
+th:nth-child(2), td:nth-child(2) {
+  width: 80px;
+}
+
+th:nth-child(3), td:nth-child(3) {
+  width: 200px;
+}
+
+th:nth-child(4), td:nth-child(4) {
+  width: 50px;
+}
+
+th:nth-child(5), td:nth-child(5) {
+  width: 20px;
+}
+
+th:nth-child(6), td:nth-child(6) {
+  width: 200px;
+}
+
+td.email {
+  word-wrap: break-word;
+  max-width: 200px;
+}
+.edit-user-dialog {
+  margin: auto;
+  max-width: 500px; /* Set a max width for the dialog */
+  width: 100%; /* Ensure it takes full width up to the max */
+}
+
+.dialog-input,
+.dialog-select {
+  width: 100%; /* Make inputs and selects responsive */
+  box-sizing: border-box; /* Include padding and border in the element's total width */
+}
+
 @media (max-width: 768px) {
   .user-management-card {
     flex-direction: column;
+    align-items: center;
+    overflow: hidden;
   }
 
   .filter-section, .main-section {
     width: 100%;
+    padding: 10px;
   }
 
   .search-input {
     max-width: 100%;
+    margin-bottom: 10px;
   }
 
   .search-button {
     width: 100%;
     margin-top: 10px;
+    margin-bottom: 10px;
   }
 
   table {
     display: block;
     overflow-x: auto;
     white-space: nowrap;
+    width: 100%;
   }
+
+  .activity-log {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+  }
+}
+
+.common-button {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 8px 16px;
+  transition: background-color 0.3s;
+  font-size: 16px;
+}
+
+.common-button:hover {
+  background-color: #1565c0;
 }

@@ -16,9 +16,9 @@ function Navbar({ isAuthenticated, onLogout }) {
         <Typography variant="h6" sx={{ flexGrow: 1 }}>RBAC Dashboard</Typography>
         <Box>
           {isAuthenticated ? (
-            <Button color="inherit" onClick={handleLogout}>Logout</Button>
+            <Button className="Log" color="inherit" onClick={handleLogout}>Logout</Button>
           ) : (
-            <Button color="inherit" onClick={() => navigate('/')}>Login</Button>
+            <Button className="Log" color="inherit" onClick={() => navigate('/')}>Login</Button>
           )}
         </Box>
       </Toolbar>

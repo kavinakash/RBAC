@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Button, TextField, List, ListItem, ListItemText, IconButton, Checkbox } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Button, Checkbox, IconButton, List, ListItem, ListItemText, TextField } from '@mui/material';
+import React, { useState } from 'react';
 
 function RoleManagement({ roles, setRoles, rolePermissions, setRolePermissions }) {
   const [newRole, setNewRole] = useState('');
@@ -43,14 +43,14 @@ function RoleManagement({ roles, setRoles, rolePermissions, setRolePermissions }
           onChange={(e) => setNewRole(e.target.value)} 
           className="role-input"
         />
-        <Button variant="contained" color="primary" onClick={handleAddRole}>Add Role</Button>
+        <Button variant="contained" onClick={handleAddRole}>Add Role</Button>
       </div>
       <List dense>
         {roles.map((role, index) => (
           <div key={index}>
             <ListItem className="role-list-item">
               <ListItemText primary={role} />
-              <IconButton edge="end" onClick={() => handleRemoveRole(role)} className="delete-icon">
+              <IconButton edge="end" onClick={() => handleRemoveRole(role)}>
                 <DeleteIcon />
               </IconButton>
               <div className="role-permissions">
@@ -65,7 +65,7 @@ function RoleManagement({ roles, setRoles, rolePermissions, setRolePermissions }
                 ))}
               </div>
             </ListItem>
-            <hr style={{ margin: '8px 0', border: '1px solid #e0e0e0' }} />
+            
           </div>
         ))}
       </List>

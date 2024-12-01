@@ -18,7 +18,7 @@ function DashboardPage() {
         aria-label="Dashboard Tabs"
         textColor="primary"
         indicatorColor="primary"
-        style={{ marginBottom: '24px' }}
+        style={{ marginBottom: '14px' }}
       >
         <Tab label="User Management" />
         <Tab label="Role Management" />

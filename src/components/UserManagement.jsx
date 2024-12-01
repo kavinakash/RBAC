@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Switch } from '@mui/material';
+import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, FormControlLabel, Switch } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { addUser, deleteUser, fetchUsers, updateUser } from '../api';
 
@@ -17,11 +17,13 @@ function UserManagement({ roles, setRoles }) {
   const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 4;
   const [activityLogs, setActivityLogs] = useState([]);
+  const [loadingTable, setLoadingTable] = useState(true);
 
   useEffect(() => {
     const loadUsers = async () => {
       const usersData = await fetchUsers();
       setUsers(usersData);
+      setLoadingTable(false);
     };
     loadUsers();
   }, []);
@@ -31,21 +33,31 @@ function UserManagement({ roles, setRoles }) {
     return regex.test(email);
   };
 
+  const sanitizeInput = (input) => {
+    return input.replace(/<[^>]*>/g, ''); 
+  };
+
   const handleAddUser = async () => {
-    if (!newUser.name) {
+    const sanitizedName = sanitizeInput(newUser.name);
+    const sanitizedEmail = sanitizeInput(newUser.email);
+    const sanitizedRole = sanitizeInput(newUser.role);
+
+    if (!sanitizedName) {
       setError('Name is required.');
       return;
     }
-    if (!validateEmail(newUser.email)) {
+    if (!validateEmail(sanitizedEmail)) {
       setError('Invalid email format.');
       return;
     }
-    if (!newUser.role) {
+    if (!sanitizedRole) {
       setError('Role is required.');
       return;
     }
-    const newUserEntry = await addUser(newUser);
-    setUsers([...users, newUserEntry]);
+
+    const newUserEntry = await addUser({ name: sanitizedName, email: sanitizedEmail, role: sanitizedRole, status: newUser.status });
+    
+    setUsers([newUserEntry, ...users]);
     setActivityLogs([...activityLogs, `Added user: ${newUserEntry.name}`]);
     setNewUser({ name: '', email: '', role: '', status: 'Active' });
     setError('');
@@ -78,7 +90,7 @@ function UserManagement({ roles, setRoles }) {
   };
 
   const handleEditUserOpen = (user) => {
-    setEditUser(user);
+    setEditUser({ ...user });
     setOpen(true);
   };
 
@@ -88,6 +100,10 @@ function UserManagement({ roles, setRoles }) {
   };
 
   const handleEditUserSave = async () => {
+    if (!editUser) {
+      setError('No user selected for editing.');
+      return;
+    }
     if (!editUser.name) {
       setError('Name is required.');
       return;
@@ -100,14 +116,33 @@ function UserManagement({ roles, setRoles }) {
       setError('Role is required.');
       return;
     }
-    const updatedUser = await updateUser(editUser);
-    setUsers(users.map(user => (user.id === updatedUser.id ? updatedUser : user)));
-    setActivityLogs([...activityLogs, `Edited user: ${updatedUser.name}`]);
+
+    try {
+        const updatedUser = await updateUser(editUser);
+        if (updatedUser) {
+            setUsers(users.map(user => (user.id === updatedUser.id ? updatedUser : user)));
+            setActivityLogs([...activityLogs, `Edited user: ${updatedUser.name}`]);
+        } else {
+            setError('Failed to update user.');
+        }
+    } catch (error) {
+        setError('An error occurred while updating the user.');
+        console.error(error);
+    }
+
     handleEditUserClose();
   };
 
-  const handleStatusChange = (id) => {
-    setUsers(users.map(user => (user.id === id ? { ...user, status: user.status === 'Active' ? 'Inactive' : 'Active' } : user)));
+  const handleStatusChange = async (id) => {
+    const updatedUsers = users.map(user => {
+      if (user.id === id) {
+        const updatedUser = { ...user, status: user.status === 'Active' ? 'Inactive' : 'Active' };
+        updateUser(updatedUser);
+        return updatedUser;
+      }
+      return user;
+    });
+    setUsers(updatedUsers);
   };
 
   const filteredUsers = users.filter(user => 
@@ -209,30 +244,29 @@ function UserManagement({ roles, setRoles }) {
           <button onClick={handleAddUser}>Add User</button>
         </div>
 
-        <div style={{ marginBottom: '16px' }}>
+        <div>
           <Button 
             variant="contained" 
-            color="primary" 
             onClick={() => handleBulkStatusChange('Active')}
             disabled={selectedUsers.length === 0}
+            style={{ marginLeft: '8px', marginBottom: '5px'  }}  
           >
             Activate Selected
           </Button>
           <Button 
             variant="contained" 
-            color="secondary" 
             onClick={() => handleBulkStatusChange('Inactive')}
             disabled={selectedUsers.length === 0}
-            style={{ marginLeft: '8px' }}
+            style={{ marginLeft: '8px', marginBottom: '5px'  }}
           >
             Deactivate Selected
           </Button>
           <Button 
             variant="contained" 
-            color="error" 
+            className="delete" 
             onClick={handleBulkDelete}
             disabled={selectedUsers.length === 0}
-            style={{ marginLeft: '8px' }}
+            style={{ marginLeft: '8px', marginBottom: '5px'  }}
           >
             Delete Selected
           </Button>
@@ -243,62 +277,85 @@ function UserManagement({ roles, setRoles }) {
             <tr>
               <th>Select</th>
               <th>Name</th>
-              <th>Email</th>
+              <th className="email">Email</th>
               <th>Role</th>
               <th style={{ width: '120px' }}>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {currentUsers.map((user) => (
-              <tr key={user.id}>
-                <td>
-                  <input 
-                    type="checkbox" 
-                    checked={selectedUsers.includes(user.id)} 
-                    onChange={() => handleSelectUser(user.id)} 
-                  />
-                </td>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>{user.role}</td>
-                <td>
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={user.status === 'Active'}
-                        onChange={() => handleStatusChange(user.id)}
-                        color="primary"
-                      />
-                    }
-                    label={user.status}
-                    style={{
-                      color: user.status === 'Active' ? 'green' : 'red',
-                      fontWeight: 'bold',
-                    }}
-                  />
-                </td>
-                <td>
-                  <button onClick={() => handleEditUserOpen(user)}>Edit</button>
-                  <button onClick={() => handleDeleteUser(user.id)} style={{ marginLeft: '8px' }}>Delete</button>
+            {loadingTable ? (
+              <tr>
+                <td colSpan="6" style={{ textAlign: 'center' }}>
+                  <CircularProgress />
                 </td>
               </tr>
-            ))}
+            ) : (
+              currentUsers.map((user) => (
+                <tr key={user.id}>
+                  <td>
+                    <input 
+                      type="checkbox" 
+                      checked={selectedUsers.includes(user.id)} 
+                      onChange={() => handleSelectUser(user.id)} 
+                    />
+                  </td>
+                  <td>{user.name}</td>
+                  <td className="email">{user.email}</td>
+                  <td>{user.role}</td>
+                  <td>
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={user.status === 'Active'}
+                          onChange={() => handleStatusChange(user.id)}
+                          color="primary"
+                        />
+                      }
+                      label={user.status}
+                      style={{
+                        color: user.status === 'Active' ? 'green' : 'red',
+                        fontWeight: 'bold',
+                      }}
+                    />
+                  </td>
+                  <td>
+                    <button onClick={() => handleEditUserOpen(user)}>EDIT</button>
+                    <Button 
+                      variant="contained" 
+                      className="delete" 
+                      onClick={() => handleDeleteUser(user.id)} 
+                      style={{ marginLeft: '8px' }}
+                    >
+                      Delete
+                    </Button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
 
-        <div>
-          <button onClick={() => handlePageChange('prev')} disabled={currentPage === 1}>
+        <div className="pagination">
+          <button 
+            onClick={() => handlePageChange('prev')} 
+            disabled={currentPage === 1} 
+            style={{ opacity: currentPage === 1 ? 0.5 : 1 }}
+          >
             Previous
           </button>
           <span>Page {currentPage} of {totalPages}</span>
-          <button onClick={() => handlePageChange('next')} disabled={currentPage === totalPages}>
+          <button 
+            onClick={() => handlePageChange('next')} 
+            disabled={currentPage === totalPages} 
+            style={{ opacity: currentPage === totalPages ? 0.5 : 1 }}
+          >
             Next
           </button>
         </div>
       </div>
 
-      <div style={{ marginTop: '20px', width: '500px' }}>
+      <div className="activity-log">
         <h3>Activity Logs</h3>
         <ul>
           {activityLogs.map((log, index) => (

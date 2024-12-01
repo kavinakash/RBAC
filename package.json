@@ -45,6 +45,7 @@
     ]
   },
   "devDependencies": {
+    "dotenv": "^16.4.5",
     "msw": "^2.6.6"
   }
 }

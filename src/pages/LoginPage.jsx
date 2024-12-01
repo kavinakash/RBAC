@@ -1,23 +1,25 @@
+import { Alert, Box, Button, TextField, Typography, IconButton } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TextField, Button, Typography, Box, Alert } from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 function LoginPage({ onLogin }) {
   const navigate = useNavigate();
 
   // Hardcoded credentials
-  const adminEmail = "admin@email.com";
+  const adminEmail = "admin@gmail.com";
   const adminPassword = "1234";
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = (e) => {
     e.preventDefault();
-    setError(''); // Reset error message
+    setError('');
 
-    // Validate email format
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email || !password) {
       setError("Both fields are required");
@@ -34,9 +36,8 @@ function LoginPage({ onLogin }) {
       return;
     }
 
-    // Mark user as authenticated and redirect
     localStorage.setItem('isAuthenticated', 'true');
-    onLogin(); // Call the onLogin function to update the authentication state
+    onLogin(); 
     navigate('/dashboard');
   };
 
@@ -66,19 +67,29 @@ function LoginPage({ onLogin }) {
           onChange={(e) => setEmail(e.target.value)}
           margin="normal"
           required
-          error={!!error && !email} // Show error if email is invalid
+          error={!!error && !email} 
           helperText={!!error && !email ? "Email is required" : ""}
         />
         <TextField
           fullWidth
           label="Password"
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           margin="normal"
           required
-          error={!!error && !password} // Show error if password is invalid
+          error={!!error && !password}
           helperText={!!error && !password ? "Password is required" : ""}
+          InputProps={{
+            endAdornment: (
+              <IconButton
+                onClick={() => setShowPassword(!showPassword)}
+                edge="end"
+              >
+                {showPassword ? <VisibilityOff /> : <Visibility />}
+              </IconButton>
+            ),
+          }}
         />
         <Button
           fullWidth

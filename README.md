@@ -1,14 +1,19 @@
 # RBAC Admin Dashboard
 
 ## Overview
-This project is an admin dashboard for managing users, roles, and permissions using React and Material-UI. It provides a user-friendly interface for administrators to efficiently manage user accounts and their associated roles and permissions, ensuring a secure and organized access control system.
+The RBAC Admin Dashboard is a web application designed for managing users, roles, and permissions using React and Material-UI. It provides a user-friendly interface for administrators to efficiently manage user accounts and their associated roles and permissions, ensuring a secure and organized access control system.
+
+## Demo Credentials
+For demonstration purposes, you can log in using the following credentials:
+- **Email**: admin@gmail.com
+- **Password**: 1234
 
 ## Features
 - **User Management**: 
   - Add, edit, and delete users.
   - Search and filter users based on name, email, role, and status.
-  - Bulk actions for activating, deactivating, and deleting multiple users at once.
-  - Activity logs to track changes made to user accounts.
+  - Perform bulk actions for activating, deactivating, and deleting multiple users at once.
+  - View activity logs to track changes made to user accounts.
 
 - **Role Management**: 
   - Create and manage roles.
@@ -20,6 +25,8 @@ This project is an admin dashboard for managing users, roles, and permissions us
   - View and modify permissions for each role in a straightforward manner.
 
 ## Setup Instructions
+Follow these steps to set up the project locally:
+
 1. **Clone the repository**:
    ```bash
    git clone <repository-url>
@@ -54,15 +61,10 @@ This project is an admin dashboard for managing users, roles, and permissions us
 6. **Open the application**:
    Open your browser and navigate to [http://localhost:3000](http://localhost:3000) to access the RBAC Admin Dashboard.
 
+
 ## Technologies Used
 - **React**: A JavaScript library for building user interfaces.
 - **Material-UI**: A popular React UI framework that provides pre-designed components.
 - **React Router**: A library for routing in React applications.
 - **Axios**: A promise-based HTTP client for making API requests.
 - **json-server**: A simple way to create a REST API using a JSON file.
-
-## Contributing
-Contributions are welcome! If you have suggestions for improvements or new features, feel free to open an issue or submit a pull request.
-
-## License
-This project is licensed under the MIT License. See the LICENSE file for more details.
