@@ -6,8 +6,8 @@ The RBAC Admin Dashboard is a web application designed for managing users, roles
 ## URL: https://rbac-vrv-kavin.netlify.app/
 ## Demo Credentials
 For demonstration purposes, you can log in using the following credentials:
-- **Email**: admin@gmail.com
-- **Password**: 1234
+- **Email**:    **admin@gmail.com**
+- **Password**: **1234**
 
 ## Features
 - **User Management**: 
@@ -15,15 +15,22 @@ For demonstration purposes, you can log in using the following credentials:
   - Search and filter users based on name, email, role, and status.
   - Perform bulk actions for activating, deactivating, and deleting multiple users at once.
   - View activity logs to track changes made to user accounts.
+  - <img src="https://github.com/user-attachments/assets/b58f454d-c087-4244-92db-553f25f7faaf" width="600" />
+
 
 - **Role Management**: 
   - Create and manage roles.
   - Assign and manage permissions for each role.
   - Easily remove roles and their associated permissions.
+  - <img src="https://github.com/user-attachments/assets/26c3dd56-0660-41bb-a55e-245c7aacb4b1" width="600" />
 
-- **Permission Management**: 
-  - Assign specific permissions (Create, Read, Update, Delete) to roles.
-  - View and modify permissions for each role in a straightforward manner.
+## Technologies Used
+- **React**: A JavaScript library for building user interfaces.
+- **Material-UI**: A popular React UI framework that provides pre-designed components.
+- **React Router**: A library for routing in React applications.
+- **Axios**: A promise-based HTTP client for making API requests.
+- **json-server**: A simple way to create a REST API using a JSON file.
+
 
 ## Setup Instructions
 Follow these steps to set up the project locally:
@@ -63,13 +70,3 @@ Follow these steps to set up the project locally:
    Open your browser and navigate to [http://localhost:3000](http://localhost:3000) to access the RBAC Admin Dashboard.
 
 
-## Technologies Used
-- **React**: A JavaScript library for building user interfaces.
-- **Material-UI**: A popular React UI framework that provides pre-designed components.
-- **React Router**: A library for routing in React applications.
-- **Axios**: A promise-based HTTP client for making API requests.
-- **json-server**: A simple way to create a REST API using a JSON file.
-<<<<<<< HEAD
-=======
-
->>>>>>> 09f194df45bd117ca7dc4c34b8ed67034ff923af
