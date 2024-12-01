@@ -68,3 +68,7 @@ Follow these steps to set up the project locally:
 - **React Router**: A library for routing in React applications.
 - **Axios**: A promise-based HTTP client for making API requests.
 - **json-server**: A simple way to create a REST API using a JSON file.
+<<<<<<< HEAD
+=======
+
+>>>>>>> 09f194df45bd117ca7dc4c34b8ed67034ff923af
